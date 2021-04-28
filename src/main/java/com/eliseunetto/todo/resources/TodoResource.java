@@ -1,5 +1,6 @@
 package com.eliseunetto.todo.resources;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.eliseunetto.todo.domain.Todo;
 import com.eliseunetto.todo.services.TodoService;
@@ -41,5 +45,12 @@ public class TodoResource {
 	public ResponseEntity<List<Todo>> listAll() {
 		List<Todo> list = todoService.findAll();
 		return ResponseEntity.ok().body(list);
+	}
+	
+	@PostMapping
+	public ResponseEntity<Todo> create(@RequestBody Todo obj) {
+		obj = todoService.create(obj);
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
 	}
 }
