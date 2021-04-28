@@ -1,5 +1,7 @@
 package com.eliseunetto.todo.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,5 +23,11 @@ public class TodoResource {
 	public ResponseEntity<Todo> findById(@PathVariable Integer id) {
 		Todo obj = todoService.findById(id);
 		return ResponseEntity.ok().body(obj);
+	}
+	
+	@GetMapping(value = "/open")
+	public ResponseEntity<List<Todo>> listOpen() {
+		List<Todo> list = todoService.findAllOpen();
+		return ResponseEntity.ok().body(list);
 	}
 }
