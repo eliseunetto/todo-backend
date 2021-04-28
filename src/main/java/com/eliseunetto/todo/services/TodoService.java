@@ -39,4 +39,9 @@ public class TodoService {
 		obj.setId(null);
 		return todoRepository.save(obj);
 	}
+
+	public void delete(Integer id) {
+		todoRepository.deleteById(id);		
+	}
+
 }
